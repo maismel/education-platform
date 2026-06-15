@@ -10,8 +10,22 @@ export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post('register')
-  register(@Body() dto: RegisterDto) {
-    return this.authService.register(dto);
+  async register(
+    @Body() dto: RegisterDto,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    const result = await this.authService.register(dto);
+
+    res.cookie('access_token', result.accessToken, {
+      httpOnly: true,
+      sameSite: 'lax',
+      secure: false, // true в production
+      maxAge: 1000 * 60 * 60,
+    });
+
+    return {
+      user: result.user,
+    };
   }
 
   @Post('login')

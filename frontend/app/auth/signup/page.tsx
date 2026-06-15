@@ -6,13 +6,13 @@ import { useRouter } from "next/navigation";
 
 export default function SignupPage() {
   const router = useRouter();
-  const { mutateAsync: signup, isPending } = useSignup();
+  const { mutateAsync: signup } = useSignup();
 
   const handleSignup = async (email: string, password: string) => {
     try {
       await signup({ email, password });
 
-      router.push("/auth/login");
+      router.push("/dashboard");
     } catch (err) {
       console.error("Signup failed", err);
     }

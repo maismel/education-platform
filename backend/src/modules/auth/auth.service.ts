@@ -26,15 +26,22 @@ export class AuthService {
         },
       });
 
-      return {
-        id: user.id,
+      const accessToken = this.jwt.sign({
+        sub: user.id,
         email: user.email,
         role: user.role,
+      });
+
+      return {
+        accessToken,
+        user: {
+          id: user.id,
+          email: user.email,
+          role: user.role,
+        },
       };
     } catch (err: unknown) {
       if (err instanceof Error) {
-        console.log('REGISTER ERROR:', err.message);
-
         throw new HttpException(err.message, HttpStatus.BAD_REQUEST);
       }
 

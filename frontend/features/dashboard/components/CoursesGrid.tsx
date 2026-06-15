@@ -1,11 +1,11 @@
 "use client";
 
-import { useAllCourses } from "@/features/courses/api/useAllCourses";
 import Link from "next/link";
 import { CourseCard } from "@/features/courses/components/CourseCard";
+import { useMyCourses } from "@/features/courses/api/useMyCourses";
 
 export const CoursesGrid = () => {
-  const { data: courses = [] } = useAllCourses();
+  const { data: courses = [] } = useMyCourses();
 
   return (
     <div>
