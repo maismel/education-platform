@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Field, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { courseSchema } from "@/features/courses/schemas/courseSchema";
-import { FormError } from "@/features/shared/components/FormError";
+import { FormError } from "@/shared/components/FormError";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import z from "zod";
@@ -55,7 +55,11 @@ export const CourseForm = ({ onSubmit, defaultValues }: CourseFormProps) => {
         <FormError message={errors.imageUrl?.message} />
       </Field>
 
-      <Button type="submit" disabled={!isValid} className="flex gap-2 ml-auto px-16">
+      <Button
+        type="submit"
+        disabled={!isValid}
+        className="flex gap-2 ml-auto px-16"
+      >
         Submit
       </Button>
     </form>

@@ -14,5 +14,8 @@ const login = async (data: LoginData) => {
 export const useLogin = () => {
   return useMutation({
     mutationFn: login,
+    onSuccess: () => {
+      window.location.href = "/dashboard";
+    },
   });
 };

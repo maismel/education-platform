@@ -9,7 +9,7 @@ import {
   CalendarIcon,
 } from "lucide-react";
 import { usePathname } from "next/navigation";
-import { SubmitDialog } from "@/features/shared/components/SubmitDialog";
+import { SubmitDialog } from "@/shared/components/SubmitDialog";
 import { useState } from "react";
 import { useLogout } from "@/features/auth/api/useLogout";
 
@@ -21,7 +21,7 @@ const navItems = [
 ];
 
 export const AppSidebar = () => {
-  const pathname = usePathname() ?? '';
+  const pathname = usePathname() ?? "";
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const { mutate: logout } = useLogout();

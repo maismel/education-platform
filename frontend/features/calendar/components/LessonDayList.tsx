@@ -2,19 +2,7 @@
 
 import { format, isSameDay } from "date-fns";
 import { LessonCard } from "./LessonCard";
-
-interface Lesson {
-  id: string;
-  title: string;
-  startsAt: string;
-  endsAt: string;
-  courseId: string;
-
-  course: {
-    id: string;
-    title: string;
-  };
-}
+import { Lesson } from "@/shared/types/lesson";
 
 interface LessonDayListProps {
   selectedDate: Date;

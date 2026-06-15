@@ -3,7 +3,7 @@ import { useParams } from "next/navigation";
 import { useLesson } from "@/features/lessons/api/useLesson";
 import { useCourse } from "@/features/courses/api/useCourse";
 import { Table, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { BackLink } from "@/features/shared/components/BackLink";
+import { BackLink } from "@/shared/components/BackLink";
 import { LessonDescription } from "@/features/lessons/components/LessonDescription";
 import { LessonInfo } from "@/features/lessons/components/LessonInfo";
 import { MaterialsSection } from "@/features/materials/components/MaterialsSection";

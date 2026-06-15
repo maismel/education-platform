@@ -1,19 +1,6 @@
 import { api } from "@/api/axios";
+import { Course } from "@/shared/types/course";
 import { useQuery } from "@tanstack/react-query";
-
-export interface Course {
-  id: string;
-  title: string;
-  description: string;
-  imageUrl?: string;
-  teacherId: string;
-  createdAt: string;
-  updatedAt: string;
-  teacher: {
-    id: string;
-    email: string;
-  };
-}
 
 export const getMyCourses = async (): Promise<Course[]> => {
   try {

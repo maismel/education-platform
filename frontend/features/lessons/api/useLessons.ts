@@ -1,19 +1,6 @@
 import { api } from "@/api/axios";
+import { Lesson } from "@/shared/types/lesson";
 import { useQuery } from "@tanstack/react-query";
-
-export type Lesson = {
-    id: string;
-    title: string;
-    description: string;
-    startsAt: string;
-    endsAt: string;
-    updatedAt: string;
-    courseId: string;
-    course: {
-        id: string;
-        title: string;
-    }
-}
 
 const getLessons = async (courseId: string):Promise<Lesson[]> => {
   try {

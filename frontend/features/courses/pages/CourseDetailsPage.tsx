@@ -3,17 +3,16 @@
 import { PencilIcon, TrashIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useCourse } from "@/features/courses/api/useCourse";
-import { useCreateLesson } from "@/features/lessons/api/useCreateLesson";
 import { useDeleteCourse } from "@/features/courses/api/useDeleteCourse";
 import { useRouter } from "next/navigation";
 import { useCurrentUser } from "@/features/users/api/useCurrentUser";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { BackLink } from "@/features/shared/components/BackLink";
+import { BackLink } from "@/shared/components/BackLink";
 import { CourseDescription } from "@/features/courses/components/CourseDescription";
 import { LessonsTab } from "@/features/lessons/components/LessonsTab";
 import { useState } from "react";
 import { EditCourseDialog } from "@/features/courses/components/EditCourseDialog";
-import { SubmitDialog } from "@/features/shared/components/SubmitDialog";
+import { SubmitDialog } from "@/shared/components/SubmitDialog";
 
 interface TeacherDetailPageProps {
   courseId: string;

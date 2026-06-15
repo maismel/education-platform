@@ -6,7 +6,7 @@ import { CreateCourseDialog } from "@/features/courses/components/CreateCourseDi
 import { CourseCard } from "@/features/courses/components/CourseCard";
 import { useAllCourses } from "@/features/courses/api/useAllCourses";
 import { useCurrentUser } from "@/features/users/api/useCurrentUser";
-import { BackLink } from "@/features/shared/components/BackLink";
+import { BackLink } from "@/shared/components/BackLink";
 import { useEnroll } from "@/features/enrollments/api/useEnroll";
 import { Button } from "@/components/ui/button";
 import { useMyEnrollments } from "@/features/enrollments/api/useMyEnrollments";

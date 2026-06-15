@@ -1,5 +1,5 @@
 import { api } from "@/api/axios";
-import { Lesson } from "@/features/lessons/api/useLessons";
+import { Lesson } from "@/shared/types/lesson";
 import { useQuery } from "@tanstack/react-query";
 
 export const useMyLessons = () => {

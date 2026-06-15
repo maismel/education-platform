@@ -5,19 +5,10 @@ import { Button } from "@/components/ui/button";
 import { Clock3, BookOpen } from "lucide-react";
 import { format } from "date-fns";
 import { useRouter } from "next/navigation";
+import { Lesson } from "@/shared/types/lesson";
 
 interface LessonCardProps {
-  lesson: {
-    id: string;
-    title: string;
-    startsAt: string;
-    endsAt: string;
-    courseId: string;
-    course: {
-      id: string;
-      title: string;
-    };
-  };
+  lesson: Lesson;
 }
 
 export const LessonCard = ({ lesson }: LessonCardProps) => {

@@ -1,5 +1,5 @@
 import { api } from "@/api/axios";
-import { Course } from "@/features/courses/api/useMyCourses";
+import { Course } from "@/shared/types/course";
 import { useQuery } from "@tanstack/react-query";
 
 const getAllCourses = async (): Promise<Course[]> => {

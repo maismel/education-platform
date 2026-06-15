@@ -1,7 +1,7 @@
 "use client";
 
 import { format } from "date-fns";
-import { Lesson, useLessons } from "@/features/lessons/api/useLessons";
+import { Lesson } from "@/shared/types/lesson";
 import {
   Table,
   TableBody,
@@ -12,12 +12,12 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { TrashIcon, EyeIcon, PenIcon, PlusIcon } from "lucide-react";
+import { TrashIcon, EyeIcon, PenIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { UpdateLessonDialog } from "@/features/lessons/components/UpdateLessonDialog";
 import { useState } from "react";
 import { useDeleteLesson } from "@/features/lessons/api/useDeleteLesson";
-import { SubmitDialog } from "@/features/shared/components/SubmitDialog";
+import { SubmitDialog } from "@/shared/components/SubmitDialog";
 import { useCurrentUser } from "@/features/users/api/useCurrentUser";
 
 interface LessonsListProps {
