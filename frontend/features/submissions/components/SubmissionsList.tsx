@@ -1,7 +1,5 @@
 import { MaterialCard } from "@/features/materials/components/MaterialCard";
-import {
-  Submission,
-} from "@/features/submissions/api/useSubmissions";
+import { Submission } from "@/shared/types/submission";
 
 interface SubmissionsListProps {
   submissions: Submission[];

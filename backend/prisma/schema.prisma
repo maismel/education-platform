@@ -10,9 +10,17 @@ model User {
   id                String       @id @default(uuid())
   email             String       @unique
   password          String
+
+  firstName         String?
+  lastName          String?
+  avatarUrl         String?
+  bio               String?
+
   role              Role
+
   createdAt         DateTime     @default(now())
   updatedAt         DateTime     @updatedAt
+  
   attendanceRecords Attendance[] @relation("StudentAttendance")
   courses           Course[]
   enrollments       Enrollment[]

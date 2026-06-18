@@ -1,16 +1,10 @@
 import { api } from "@/api/axios";
-import { Lesson } from "@/features/lessons/api/useLessons";
+import { Lesson } from "@/shared/types/lesson";
 import { useQuery } from "@tanstack/react-query";
 
 const getLesson = async (id: string):Promise<Lesson> => {
-  try {
-    const response = await api.get(`/lessons/${id}`);
-    return response.data;
-  } catch (e: any) {
-    console.error("Create lesson error:", e?.response?.data || e);
-
-    throw new Error(e?.response?.data?.message || "Failed to create lesson");
-  }
+   const response = await api.get(`/lessons/${id}`);
+   return response.data;
 };
 
 export const useLesson = (id: string) => {

@@ -72,6 +72,47 @@ export class SubmissionsService {
     return submissions;
   }
 
+  async getLessonSubmissions(lessonId: string, teacherId: string) {
+    return this.prisma.submission.findMany({
+      where: {
+        lessonId,
+        lesson: {
+          course: {
+            teacherId,
+          },
+        },
+      },
+      include: {
+        lesson: {
+          select: {
+            id: true,
+            title: true,
+          },
+        },
+        student: {
+          select: {
+            id: true,
+            email: true,
+          },
+        },
+        grade: {
+          include: {
+            teacher: {
+              select: {
+                id: true,
+                email: true,
+              },
+            },
+          },
+        },
+      },
+
+      orderBy: {
+        submittedAt: 'desc',
+      },
+    });
+  }
+
   async deleteSubmission(id: string) {
     const submission = await this.prisma.submission.delete({
       where: {

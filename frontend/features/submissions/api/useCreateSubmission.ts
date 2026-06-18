@@ -34,7 +34,7 @@ export const useCreateSubmission = () => {
 
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["submissions"],
+        queryKey: ["submissions:my"],
       });
     },
   });

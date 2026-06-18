@@ -1,21 +1,11 @@
 import { api } from "@/api/axios";
+import { User } from "@/shared/types/user";
 import { useQuery } from "@tanstack/react-query";
 
-interface User {
-    id: string;
-    role: string;
-    email: string;
-}
-
 export const getCurrentUser = async ():Promise<User> => {
-  try {
-    const { data } = await api.get("/auth/me");
-    return data;
-  } catch (error: any) {
-    throw new Error(
-      error?.response?.data?.message || "Failed to fetch current user",
-    );
-  }
+  const { data } = await api.get("/users/me");
+  console.log("data", data);
+  return data;
 };
 
 export const useCurrentUser = () => {

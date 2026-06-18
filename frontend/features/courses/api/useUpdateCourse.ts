@@ -12,7 +12,6 @@ export const updateCourse = async (
   courseData: UpdateCourseData,
 ) => {
   const response = await api.patch(`/courses/${courseId}`, courseData);
-
   return response.data;
 };
 

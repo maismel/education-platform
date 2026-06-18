@@ -2,26 +2,30 @@
 import { useParams } from "next/navigation";
 import { useLesson } from "@/features/lessons/api/useLesson";
 import { useCourse } from "@/features/courses/api/useCourse";
-import { Table, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { BackLink } from "@/shared/components/BackLink";
 import { LessonDescription } from "@/features/lessons/components/LessonDescription";
 import { LessonInfo } from "@/features/lessons/components/LessonInfo";
 import { MaterialsSection } from "@/features/materials/components/MaterialsSection";
 import { useCurrentUser } from "@/features/users/api/useCurrentUser";
+import { AssignGradeDialog } from "@/features/grades/components/AssignGradeDialog";
+import { useState } from "react";
+import { SubmissionsTable } from "@/features/submissions/components/SubmissionsTable";
 
 export const LessonDetailPage = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [id, setId] = useState("");
   const params = useParams<{
     courseId: string;
     lessonId: string;
   }>();
-  const lessonId = params?.lessonId;
+  const lessonId = params?.lessonId ?? "";
   const courseId = params?.courseId;
-
-  const { data: lesson } = useLesson(lessonId ?? "");
-  const { data: course } = useCourse(courseId ?? "");
 
   const { data: user } = useCurrentUser();
   const isTeacher = user?.role === "TEACHER";
+
+  const { data: lesson } = useLesson(lessonId ?? "");
+  const { data: course } = useCourse(courseId ?? "");
 
   if (!lesson || !course) {
     return;
@@ -39,17 +43,12 @@ export const LessonDetailPage = () => {
       {!isTeacher && (
         <MaterialsSection lessonId={lesson.id} mode="submissions" />
       )}
-      {isTeacher && (
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Student name</TableHead>
-              <TableHead>Submission Time</TableHead>
-              <TableHead>Files</TableHead>
-            </TableRow>
-          </TableHeader>
-        </Table>
-      )}
+      {isTeacher && <SubmissionsTable setId={setId} setIsOpen={setIsOpen} />}
+      <AssignGradeDialog
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        submissionId={id}
+      />
     </div>
   );
 };

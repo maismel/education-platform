@@ -1,32 +1,44 @@
 "use client";
 
-import { useMyLessons } from "@/features/lessons/api/useMyLessons";
-import { isAfter, startOfToday } from "date-fns";
 import { Card, CardContent } from "@/components/ui/card";
+import { Clock } from "lucide-react";
+import { Lesson } from "@/shared/types/lesson";
 
-export const UpcomingLessons = () => {
-  const { data: lessons = [] } = useMyLessons();
+interface UpcomingLessonsProps {
+  lessons: Lesson[];
+  title: string;
+}
 
-  const upcoming = lessons
-    .filter((l) => isAfter(new Date(l.startsAt), startOfToday()))
-    .slice(0, 5);
-
+export const UpcomingLessons = ({ lessons, title }: UpcomingLessonsProps) => {
   return (
     <Card>
       <CardContent className="p-5">
-        <h2 className="text-lg font-semibold mb-3">Upcoming</h2>
+        <h2 className="text-lg font-semibold mb-3">{title}</h2>
 
-        {upcoming.length === 0 ? (
-          <p className="text-muted-foreground">No upcoming lessons</p>
+        {lessons.length === 0 ? (
+          <p className="text-muted-foreground">No lessons</p>
         ) : (
           <div className="flex flex-col gap-3">
-            {upcoming.map((lesson) => (
-              <div key={lesson.id}>
-                <p className="font-medium">{lesson.title}</p>
+            {lessons.map((lesson) => (
+              <div
+                key={lesson.id}
+                className="flex items-center justify-between"
+              >
+                <div>
+                  <p className="font-medium">{lesson.title}</p>
 
-                <p className="text-sm text-muted-foreground">
-                  {new Date(lesson.startsAt).toLocaleDateString()}
-                </p>
+                  <p className="text-sm text-muted-foreground flex items-center gap-1">
+                    <Clock className="h-3 w-3" />
+                    {new Date(lesson.startsAt).toLocaleTimeString([], {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
+                  </p>
+                </div>
+
+                <span className="text-xs text-muted-foreground">
+                  {lesson.course.title}
+                </span>
               </div>
             ))}
           </div>

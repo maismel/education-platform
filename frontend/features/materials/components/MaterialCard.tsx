@@ -3,6 +3,7 @@ import { useDeleteMaterial } from "@/features/materials/api/useDeleteMaterial";
 import { getFileType } from "@/features/materials/helpers/getFileType";
 import { useCurrentUser } from "@/features/users/api/useCurrentUser";
 import { FileText, FileImage, File } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -27,21 +28,35 @@ export interface FileLike {
 
 interface MaterialCardProps {
   file: FileLike;
+  variant?: "default" | "compact";
 }
 
-export const MaterialCard = ({ file }: MaterialCardProps) => {
+export const MaterialCard = ({
+  file,
+  variant = "default",
+}: MaterialCardProps) => {
   const type = getFileType(file.fileName);
   const { mutate: deleteMaterial } = useDeleteMaterial();
   const { data: user } = useCurrentUser();
 
   return (
-    <div className="flex items-center gap-4 p-3 border rounded-lg hover:bg-muted transition">
+    <div
+      className={cn(
+        "flex items-center justify-between p-3 border rounded-lg hover:bg-muted transition",
+        variant === "compact" && "w-fit",
+      )}
+    >
       {/* left */}
       <div className="flex items-center gap-2">
         {getIcon(type)}
 
         <div className="flex flex-col">
-          <span className="text-sm font-medium truncate max-w-32 block">
+          <span
+            className={cn(
+              "text-sm font-medium truncate max-w-32 block",
+              variant === "compact" && "max-w-12",
+            )}
+          >
             {file.fileName}
           </span>
           <span className="text-xs text-muted-foreground uppercase">
@@ -58,14 +73,16 @@ export const MaterialCard = ({ file }: MaterialCardProps) => {
           </Button>
         </a>
 
-        <Button
-          type="button"
-          onClick={() => deleteMaterial(file.id)}
-          size="sm"
-          disabled={user?.id !== file.uploadedById}
-        >
-          Delete
-        </Button>
+        {variant !== "compact" && (
+          <Button
+            type="button"
+            onClick={() => deleteMaterial(file.id)}
+            size="sm"
+            disabled={user?.id !== file.uploadedById}
+          >
+            Delete
+          </Button>
+        )}
       </div>
     </div>
   );

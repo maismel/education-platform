@@ -3,13 +3,11 @@
 import { Button } from "@/components/ui/button";
 import { Field, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { useCreateLesson } from "@/features/lessons/api/useCreateLesson";
 import { DateInput } from "@/shared/components/DateInput";
 import { TimeInput } from "@/shared/components/TimeInput";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { mergeDateAndTime } from "@/features/lessons/helpers/mergeDateAndTime";
 import { lessonSchema } from "@/features/lessons/schemas/lessonSchema";
 import { FormError } from "@/shared/components/FormError";
 

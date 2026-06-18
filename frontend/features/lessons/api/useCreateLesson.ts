@@ -10,16 +10,8 @@ interface CreateLesson {
 }
 
 const createLesson = async (data: CreateLesson) => {
-  try {
-    const response = await api.post("/lessons", data);
-    return response.data;
-  } catch (error: any) {
-    console.error("Create lesson error:", error?.response?.data || error);
-
-    throw new Error(
-      error?.response?.data?.message || "Failed to create lesson",
-    );
-  }
+  const response = await api.post("/lessons", data);
+  return response.data;
 };
 
 export const useCreateLesson = () => {

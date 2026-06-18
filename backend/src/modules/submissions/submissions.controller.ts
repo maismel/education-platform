@@ -3,6 +3,7 @@ import {
   Body,
   Controller,
   Get,
+  Param,
   Post,
   Req,
   UploadedFile,
@@ -72,5 +73,15 @@ export class SubmissionsController {
   @UseGuards(JwtAuthGuard)
   getMySubmissions(@Req() req: Request & { user: { id: string } }) {
     return this.submissionsService.getMySubmissions(req.user.id);
+  }
+
+  @Get('lesson/:lessonId')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.TEACHER)
+  getLessonSubmissions(
+    @Param('lessonId') lessonId: string,
+    @Req() req: Request & { user: { id: string } },
+  ) {
+    return this.submissionsService.getLessonSubmissions(lessonId, req.user.id);
   }
 }

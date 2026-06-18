@@ -5,7 +5,7 @@ import {
   DialogDescription,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Lesson } from "@/features/lessons/api/useLessons";
+import { Lesson } from "@/shared/types/lesson";
 import { useUpdateLesson } from "@/features/lessons/api/useUpdateLesson";
 import { LessonForm } from "@/features/lessons/components/LessonForm";
 import { lessonToFormValues } from "@/features/lessons/helpers/lessonToFormValues";

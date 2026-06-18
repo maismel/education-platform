@@ -1,7 +1,5 @@
-import { LessonDetailPage } from "@/features/lessons/pages/LessonDetailPage"
+import { LessonDetailPage } from "@/features/lessons/pages/LessonDetailPage";
 
 export default async function Page() {
-    return (
-        <LessonDetailPage />
-    )
+  return <LessonDetailPage />;
 }

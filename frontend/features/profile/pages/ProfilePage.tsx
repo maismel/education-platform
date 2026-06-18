@@ -1,21 +1,25 @@
 "use client";
 
-
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { UpdateProfileDialog } from "@/features/profile/components/UpdateProfileDialog";
 
 import { useCurrentUser } from "@/features/users/api/useCurrentUser";
+import { useState } from "react";
 
 export const ProfilePage = () => {
+  const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
   const { data: user } = useCurrentUser();
+  const [isOpen, setIsOpen] = useState(false);
 
   if (!user) {
     return null;
   }
 
-  const initials =
-    user.email
+  const initials = user.firstName + " " + user.lastName;
 
   return (
     <div className="mx-auto flex w-full max-w-3xl flex-col gap-6">
@@ -23,22 +27,19 @@ export const ProfilePage = () => {
 
       <Card>
         <CardContent className="flex flex-col gap-6 p-6 sm:flex-row sm:items-center">
-          {/* <Avatar className="h-24 w-24">
-            <AvatarImage src={""} />
-            <AvatarFallback className="text-xl">{initials}</AvatarFallback>
-          </Avatar> */}
+          <Avatar className="h-24 w-24">
+            <AvatarImage src={`${API_URL}${user.avatarUrl}`} />
+            <AvatarFallback className="text-xl overflow-hidden">
+              {initials}
+            </AvatarFallback>
+          </Avatar>
 
           <div className="flex flex-1 flex-col gap-2">
             <h2 className="text-2xl font-semibold">{initials}</h2>
-
             <p className="text-muted-foreground">{user.email}</p>
-
-            {/* <div>
-              <Badge>{user.role}</Badge>
-            </div> */}
           </div>
 
-          <Button>Edit Profile</Button>
+          <Button onClick={() => setIsOpen(true)}>Edit Profile</Button>
         </CardContent>
       </Card>
 
@@ -60,21 +61,22 @@ export const ProfilePage = () => {
             <span>{user.role}</span>
           </div>
 
-          {initials && (
+          {user.firstName && (
             <div className="flex justify-between">
               <span className="text-muted-foreground">First name</span>
-              <span>{initials}</span>
+              <span>{user.firstName}</span>
             </div>
           )}
 
-          {initials && (
+          {user.lastName && (
             <div className="flex justify-between">
               <span className="text-muted-foreground">Last name</span>
-              <span>{initials}</span>
+              <span>{user.lastName}</span>
             </div>
           )}
         </CardContent>
       </Card>
+      <UpdateProfileDialog isOpen={isOpen} setIsOpen={setIsOpen} user={user} />
     </div>
   );
 };

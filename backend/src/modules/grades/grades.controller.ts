@@ -19,10 +19,11 @@ export class GradesController {
 
   @Patch('assign')
   @Roles(Role.TEACHER)
-  aassignGrade(
+  assignGrade(
     @Body() dto: AssignGradeDto,
     @CurrentUser() user: { id: string },
   ) {
+    console.log(user);
     return this.gradesService.assignGrade(
       dto.submissionId,
       user.id, // teacherId

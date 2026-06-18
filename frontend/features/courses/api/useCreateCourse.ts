@@ -6,19 +6,15 @@ export const createCourse = async (
   description: string,
   imageUrl?: string,
 ) => {
-  try {
-    const { data } = await api.post("/courses", {
-      title,
-      description,
-      ...(imageUrl && {
-        imageUrl,
-      }),
-    });
+  const { data } = await api.post("/courses", {
+    title,
+    description,
+    ...(imageUrl && {
+      imageUrl,
+    }),
+  });
 
-    return data;
-  } catch (e: any) {
-    throw new Error(e?.response?.data?.message || "Failed to create course");
-  }
+  return data;
 };
 
 export const useCreateCourse = () => {

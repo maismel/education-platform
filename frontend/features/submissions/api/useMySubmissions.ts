@@ -1,5 +1,5 @@
 import { api } from "@/api/axios";
-import { Submission } from "@/features/submissions/api/useSubmissions";
+import { Submission } from "@/shared/types/submission";
 import { useQuery } from "@tanstack/react-query";
 
 const getSubmissions = async (): Promise<Submission[]> => {
