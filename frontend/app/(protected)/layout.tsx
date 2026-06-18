@@ -1,15 +1,6 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { jwtDecode } from "jwt-decode";
 import { AppSidebar } from "@/features/navigation/components/AppSidebar";
-
-type TokenPayload = {
-  sub: string;
-  email: string;
-  role: "TEACHER" | "STUDENT" | "ADMIN";
-  exp: number;
-  iat: number;
-};
 
 export default async function DashboardLayout({
   children,
