@@ -1,5 +1,6 @@
 import { api } from "@/api/axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
 
 export type UpdateLessonData = {
   title?: string;
@@ -38,6 +39,7 @@ export const useUpdateLesson = () => {
       queryClient.invalidateQueries({
         queryKey: ["lessons"],
       });
+      toast.success("You have successfully updated a lesson");
     },
   });
 };

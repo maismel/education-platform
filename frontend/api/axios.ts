@@ -6,10 +6,16 @@ export const api = axios.create({
 });
 
 api.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    if (error.response?.status === 401) {
-      window.location.href = "/auth/login";
+  (res) => res,
+  async (error) => {
+    const originalRequest = error.config;
+
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+
+      await api.post("/auth/refresh");
+
+      return api(originalRequest);
     }
 
     return Promise.reject(error);

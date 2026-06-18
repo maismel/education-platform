@@ -1,51 +1,74 @@
 "use client";
 
-import { useState } from "react";
+import { Button } from "@/components/ui/button";
 import { Field, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { validateForm } from "@/features/auth/utils/validate";
-import { PasswordInput } from "@/features/auth/components/PasswordInput";
+import { useSignup } from "@/features/auth/api/useSignup";
+import { signupSchema } from "@/features/auth/schemas/signupSchema";
+import { FormError } from "@/shared/components/FormError";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import z from "zod";
 
-interface SignupFormProps {
-  onSubmit: (email: string, password: string) => void;
-}
+type FormValues = z.infer<typeof signupSchema>;
 
-export const SignupForm = ({ onSubmit }: SignupFormProps) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+export const SignupForm = () => {
+  const router = useRouter();
 
-  const isValid = validateForm(email, password);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid },
+  } = useForm<FormValues>({
+    resolver: zodResolver(signupSchema),
+    mode: "onChange",
+  });
+  const { mutate: signup } = useSignup();
 
-  const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    onSubmit(email, password);
-  }
+  const onSubmit = async (data: FormValues) => {
+    await signup(data);
+    toast.success("You have successfully registered in");
+    router.push("/dashboard");
+  };
 
   return (
     <form
-      autoComplete="on"
-      onSubmit={handleSubmit}
-      className="w-full max-w-xs sm:max-w-xl flex flex-col gap-8"
+      onSubmit={handleSubmit(onSubmit)}
+      className="flex flex-col gap-2 mt-4 w-full"
     >
       <Field>
         <FieldLabel htmlFor="email">Email</FieldLabel>
-        <Input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="Enter email"
-        />
-      </Field>
-      <Field>
-        <FieldLabel htmlFor="password">Password</FieldLabel>
-        <PasswordInput
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+        <Input {...register("email")} placeholder="Email" />
+        <FormError message={errors.email?.message} />
       </Field>
 
-      <Button type="submit" className="w-3xs self-end" disabled={!isValid}>
+      <Field>
+        <FieldLabel htmlFor="password">Password</FieldLabel>
+        <Input {...register("password")} placeholder="Password" />
+        <FormError message={errors.password?.message} />
+      </Field>
+      <div className="flex flex-col sm:flex-row sm:gap-8">
+        <Field>
+          <FieldLabel htmlFor="firstName">First Name</FieldLabel>
+          <Input {...register("firstName")} placeholder="First Name" />
+          <FormError message={errors.firstName?.message} />
+        </Field>
+
+        <Field>
+          <FieldLabel htmlFor="lastName">Last Name</FieldLabel>
+          <Input {...register("lastName")} placeholder="Last Name" />
+          <FormError message={errors.lastName?.message} />
+        </Field>
+      </div>
+      <Field>
+        <FieldLabel htmlFor="bio">Bio</FieldLabel>
+        <Input {...register("bio")} placeholder="Bio" />
+        <FormError message={errors.bio?.message} />
+      </Field>
+
+      <Button type="submit" className="self-end px-12" disabled={!isValid}>
         Submit
       </Button>
     </form>

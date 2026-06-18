@@ -1,5 +1,6 @@
 import { api } from "@/api/axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
 
 interface CreateLesson {
   title: string;
@@ -23,6 +24,7 @@ export const useCreateLesson = () => {
       queryClient.invalidateQueries({
         queryKey: ["lessons"],
       });
+      toast.success("You have successfully created a lesson");
     },
   });
 };

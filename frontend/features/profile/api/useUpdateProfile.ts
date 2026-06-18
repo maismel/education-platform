@@ -1,5 +1,6 @@
 import { api } from "@/api/axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
 
 export interface UpdateProfileDto {
   firstName: string;
@@ -45,6 +46,7 @@ export const useUpdateProfile = () => {
       queryClient.invalidateQueries({
         queryKey: ["current-user"],
       });
+      toast.success("You have successfully updated your profile");
     },
   });
 };

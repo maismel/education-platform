@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Req, Get, UseGuards, Res } from '@nestjs/common';
+import { Controller, Post, Body, Req, Get, UseGuards, Res, UnauthorizedException } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LoginDto } from 'src/modules/auth/dto/login.dto';
 import { RegisterDto } from 'src/modules/auth/dto/register.dto';
@@ -16,11 +16,20 @@ export class AuthController {
   ) {
     const result = await this.authService.register(dto);
 
-    res.cookie('access_token', result.accessToken, {
+    const { accessToken, refreshToken } = result;
+
+    res.cookie('access_token', accessToken, {
       httpOnly: true,
       sameSite: 'lax',
-      secure: false, // true в production
-      maxAge: 1000 * 60 * 60,
+      secure: false,
+      maxAge: 1000 * 60 * 15,
+    });
+
+    res.cookie('refresh_token', refreshToken, {
+      httpOnly: true,
+      sameSite: 'lax',
+      secure: false,
+      maxAge: 1000 * 60 * 60 * 24 * 7,
     });
 
     return {
@@ -35,11 +44,20 @@ export class AuthController {
   ) {
     const result = await this.authService.login(dto);
 
-    res.cookie('access_token', result.accessToken, {
+    const { accessToken, refreshToken } = result;
+
+    res.cookie('access_token', accessToken, {
       httpOnly: true,
       sameSite: 'lax',
       secure: false, // true в production (https)
       maxAge: 1000 * 60 * 60,
+    });
+
+    res.cookie('refresh_token', refreshToken, {
+      httpOnly: true,
+      sameSite: 'lax',
+      secure: false,
+      maxAge: 1000 * 60 * 60 * 24 * 7,
     });
 
     return {
@@ -62,9 +80,34 @@ export class AuthController {
       sameSite: 'lax',
       secure: false,
     });
+    res.clearCookie('refresh_token', {
+      httpOnly: true,
+      sameSite: 'lax',
+      secure: false,
+    });
 
     return {
       success: true,
     };
+  }
+
+  @Post('refresh')
+  async refresh(@Req() req, @Res({ passthrough: true }) res: Response) {
+    const refreshToken = req.cookies?.refresh_token;
+
+    if (!refreshToken) {
+      throw new UnauthorizedException();
+    }
+
+    const accessToken = await this.authService.refresh(refreshToken);
+
+    res.cookie('access_token', accessToken, {
+      httpOnly: true,
+      sameSite: 'lax',
+      secure: false,
+      maxAge: 1000 * 60 * 15,
+    });
+
+    return { success: true };
   }
 }

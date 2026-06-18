@@ -1,5 +1,6 @@
 import { api } from "@/api/axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
 
 type UploadMaterialData = {
   lessonId: string;
@@ -36,6 +37,7 @@ export const useCreateSubmission = () => {
       queryClient.invalidateQueries({
         queryKey: ["submissions:my"],
       });
+      toast.success("You have successfully created a submission");
     },
   });
 };

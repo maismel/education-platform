@@ -1,5 +1,6 @@
 import { api } from "@/api/axios";
 import { useMutation } from "@tanstack/react-query";
+import { toast } from "sonner";
 
 interface AssignGradeData {
   submissionId: string;
@@ -15,5 +16,8 @@ const assignGrade = async (data: AssignGradeData) => {
 export const useAssignGrade = () => {
   return useMutation({
     mutationFn: assignGrade,
+    onSuccess: () => {
+      toast.success("You have successfully assigned a grade");
+    }
   });
 };

@@ -24,10 +24,6 @@ export default async function DashboardLayout({
     redirect("/auth/login");
   }
 
-  const decoded = jwtDecode<TokenPayload>(token);
-
-  console.log("Decoded JWT:", decoded);
-
   return (
     <div className="flex">
       <AppSidebar />

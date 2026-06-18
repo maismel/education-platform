@@ -23,17 +23,18 @@ export class AuthService {
           email: dto.email,
           password: hashedPassword,
           role: 'STUDENT',
+          firstName: dto.firstName,
+          lastName: dto.lastName,
+          bio: dto.bio,
         },
       });
 
-      const accessToken = this.jwt.sign({
-        sub: user.id,
-        email: user.email,
-        role: user.role,
-      });
+      const accessToken = this.generateAccessToken(user);
+      const refreshToken = this.generateRefreshToken(user);
 
       return {
         accessToken,
+        refreshToken,
         user: {
           id: user.id,
           email: user.email,
@@ -63,14 +64,12 @@ export class AuthService {
     const valid = await bcrypt.compare(dto.password, user.password);
     if (!valid) throw new UnauthorizedException();
 
-    const token = this.jwt.sign({
-      sub: user.id,
-      email: user.email,
-      role: user.role,
-    });
+    const accessToken = this.generateAccessToken(user);
+    const refreshToken = this.generateRefreshToken(user);
 
     return {
-      accessToken: token,
+      accessToken: accessToken,
+      refreshToken: refreshToken,
       user: {
         id: user.id,
         email: user.email,
@@ -80,16 +79,43 @@ export class AuthService {
   }
 
   // JWT
-  private generateToken(userId: string, email: string, role: string) {
-    const payload = {
-      sub: userId,
-      email,
-      role,
-    };
+  private generateAccessToken(user: any) {
+    return this.jwt.sign(
+      {
+        sub: user.id,
+        email: user.email,
+        role: user.role,
+      },
+      { expiresIn: '15m' },
+    );
+  }
 
-    return {
-      access_token: this.jwt.sign(payload),
-    };
+  private generateRefreshToken(user: any) {
+    return this.jwt.sign(
+      {
+        sub: user.id,
+      },
+      { expiresIn: '7d' },
+    );
+  }
+
+  async refresh(refreshToken: string) {
+    const payload = this.jwt.verify(refreshToken);
+
+    const user = await this.prisma.user.findUnique({
+      where: { id: payload.sub },
+    });
+
+    if (!user) throw new UnauthorizedException();
+
+    return this.jwt.sign(
+      {
+        sub: user.id,
+        email: user.email,
+        role: user.role,
+      },
+      { expiresIn: '15m' },
+    );
   }
 
   async getProfile(userId: string) {

@@ -1,5 +1,6 @@
 import { api } from "@/api/axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
 
 export const deleteMaterial = async (materialId: string) => {
  const response = await api.delete(`/materials/${materialId}`);
@@ -16,6 +17,7 @@ export const useDeleteMaterial = () => {
       queryClient.invalidateQueries({
         queryKey: ["materials"],
       });
+      toast.success("You have successfully deleted a material");
     },
   });
 };

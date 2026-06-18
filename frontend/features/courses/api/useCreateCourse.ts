@@ -1,5 +1,6 @@
 import { api } from "@/api/axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
 
 export const createCourse = async (
   title: string,
@@ -35,6 +36,7 @@ export const useCreateCourse = () => {
       queryClient.invalidateQueries({
         queryKey: ["my-courses"],
       });
+      toast.success("You have successfully created a course");
     },
   });
 };

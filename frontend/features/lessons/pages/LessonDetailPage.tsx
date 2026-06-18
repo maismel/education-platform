@@ -28,7 +28,7 @@ export const LessonDetailPage = () => {
   const { data: course } = useCourse(courseId ?? "");
 
   if (!lesson || !course) {
-    return;
+    return null;
   }
 
   return (

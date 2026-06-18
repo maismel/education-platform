@@ -1,5 +1,6 @@
 import { api } from "@/api/axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
 
 const deleteCourse = async (id: string) => {
   const response = await api.delete(`/courses/${id}`);
@@ -15,6 +16,7 @@ export const useDeleteCourse = () => {
       queryClient.invalidateQueries({
         queryKey: ["my-courses"],
       });
+      toast.success("You have successfully deleted a course");
     },
   });
 };

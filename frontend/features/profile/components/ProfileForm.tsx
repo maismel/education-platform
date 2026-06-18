@@ -13,7 +13,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import z from "zod";
 
 import { profileSchema } from "@/features/profile/schemas/profileSchema";
-import {Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { getAvatarSrc } from "@/features/profile/helpers/getAvatarSrc";
 
 type FormValues = z.infer<typeof profileSchema>;
@@ -54,7 +54,6 @@ export const ProfileForm = ({
     setAvatar(file);
     setPreview(URL.createObjectURL(file));
   };
-
 
   return (
     <form
