@@ -59,10 +59,10 @@ export class AuthService {
       where: { email: dto.email },
     });
 
-    if (!user) throw new UnauthorizedException();
+    if (!user) throw new UnauthorizedException("Invalid email or password");
 
     const valid = await bcrypt.compare(dto.password, user.password);
-    if (!valid) throw new UnauthorizedException();
+    if (!valid) throw new UnauthorizedException("Invalid email or password");
 
     const accessToken = this.generateAccessToken(user);
     const refreshToken = this.generateRefreshToken(user);

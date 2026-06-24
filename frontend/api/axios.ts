@@ -9,8 +9,13 @@ api.interceptors.response.use(
   (res) => res,
   async (error) => {
     const originalRequest = error.config;
+    const isRefreshableRequest = !originalRequest.url?.startsWith("/auth/");
 
-    if (error.response?.status === 401 && !originalRequest._retry) {
+    if (
+      error.response?.status === 401 &&
+      !originalRequest._retry &&
+      isRefreshableRequest
+    ) {
       originalRequest._retry = true;
 
       await api.post("/auth/refresh");

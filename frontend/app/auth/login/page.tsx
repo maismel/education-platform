@@ -10,15 +10,10 @@ export default function LoginPage() {
   const router = useRouter();
 
   const handleLogin = async (email: string, password: string) => {
-    try {
-      await login({ email, password });
-      
-      toast.success("You have successfully logged in");
-      router.push("/dashboard");
-    } catch (err) {
-      console.error("Login failed", err);
-      toast.error(typeof err === "string" ? err : "Something went wrong");
-    }
+    await login({ email, password });
+
+    toast.success("You have successfully logged in");
+    router.push("/dashboard");
   };
 
   return (
