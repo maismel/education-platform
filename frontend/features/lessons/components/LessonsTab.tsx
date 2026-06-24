@@ -23,7 +23,6 @@ export const LessonsTab = ({ courseId }: LessonsTabProps) => {
   return (
     <>
       <div className="flex flex-col gap-4">
-        
         {user?.role === "TEACHER" && (
           <Button
             type="button"
@@ -35,7 +34,7 @@ export const LessonsTab = ({ courseId }: LessonsTabProps) => {
           </Button>
         )}
 
-        <LessonsList lessons={lessons || []} />
+        <LessonsList lessons={lessons || []} courseId={courseId} />
         <CreateLessonDialog
           courseId={courseId}
           isOpen={isOpen}

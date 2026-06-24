@@ -37,7 +37,7 @@ export const UsersTable = ({users}: UsersTableProps) => {
   return (
     <>
       <Table>
-        <TableCaption>A list of lessons on this course.</TableCaption>
+        <TableCaption>A list of users.</TableCaption>
         <TableHeader>
           <TableRow>
             <TableHead className="w-20">Avatar</TableHead>

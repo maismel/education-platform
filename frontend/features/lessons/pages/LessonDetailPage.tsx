@@ -10,6 +10,9 @@ import { useCurrentUser } from "@/features/users/api/useCurrentUser";
 import { AssignGradeDialog } from "@/features/grades/components/AssignGradeDialog";
 import { useState } from "react";
 import { SubmissionsTable } from "@/features/submissions/components/SubmissionsTable";
+import { useSubmitAttendance } from "@/features/attendance/api/useSubmitAttendance";
+import { Button } from "@/components/ui/button";
+import { isWithinInterval } from "date-fns";
 
 export const LessonDetailPage = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -22,14 +25,25 @@ export const LessonDetailPage = () => {
   const courseId = params?.courseId;
 
   const { data: user } = useCurrentUser();
-  const isTeacher = user?.role === "TEACHER";
-
   const { data: lesson } = useLesson(lessonId ?? "");
   const { data: course } = useCourse(courseId ?? "");
+
+  const { mutateAsync: submitAttendance } = useSubmitAttendance();
+
+  const isTeacher = user?.role === "TEACHER";
+  const isStudent = user?.role === "STUDENT";
 
   if (!lesson || !course) {
     return null;
   }
+
+ const isAttendanceValid =
+   !!lesson?.startsAt &&
+   !!lesson?.endsAt &&
+   isWithinInterval(new Date(), {
+     start: new Date(lesson.startsAt),
+     end: new Date(lesson.endsAt),
+   });
 
   return (
     <div className="flex flex-col gap-8">
@@ -40,6 +54,18 @@ export const LessonDetailPage = () => {
         <LessonInfo course={course} lesson={lesson} />
       </div>
       <MaterialsSection lessonId={lesson.id} mode="materials" />
+      {isStudent && (
+        <div className="flex flex-col gap-4">
+          <p className="text-xl font-bold">Submit your Attendance</p>
+          <Button
+            className="self-start"
+            onClick={() => submitAttendance(lessonId)}
+            disabled={!isAttendanceValid}
+          >
+            Submit Attendance
+          </Button>
+        </div>
+      )}
       {!isTeacher && (
         <MaterialsSection lessonId={lesson.id} mode="submissions" />
       )}

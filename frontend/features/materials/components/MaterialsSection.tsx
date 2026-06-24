@@ -15,19 +15,18 @@ interface MaterialsSectionProps {
 
 export const MaterialsSection = ({ lessonId, mode }: MaterialsSectionProps) => {
   const [isOpen, setIsOpen] = useState(false);
+
+  const { data: user } = useCurrentUser();
   const { data: materials } = useGetLessonMaterials(lessonId);
   const { data: submissions } = useMyLessonSubmissions(lessonId);
 
-  const { data: user } = useCurrentUser();
-
   const isTeacher = user?.role === "TEACHER";
+
   const title =
     mode === "materials"
       ? "Materials for the lesson"
       : "Submit your assignment";
 
-  console.log("materials", materials);
-  console.log("submissions", submissions);
   return (
     <div className="flex justify-between">
       <div className="flex flex-col gap-4">

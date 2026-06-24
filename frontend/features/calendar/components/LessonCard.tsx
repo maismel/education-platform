@@ -37,7 +37,7 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
         <Button
           className="px-8 self-start"
           onClick={() =>
-            router.push(`/courses/${lesson.course.id}/lessons/${lesson.id}`)
+            router.push(`/courses/${lesson.course.id}/${lesson.id}`)
           }
         >
           Open

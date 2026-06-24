@@ -29,6 +29,9 @@ export class CoursesService {
 
   async getCourses() {
     return this.prisma.course.findMany({
+      where: {
+        isActive: true,
+      },
       include: {
         teacher: {
           select: {
@@ -44,6 +47,7 @@ export class CoursesService {
     return this.prisma.course.findMany({
       where: {
         teacherId,
+        isActive: true,
       },
       include: {
         teacher: {
@@ -106,7 +110,7 @@ export class CoursesService {
       where: { id: courseId },
     });
 
-    if (!course) {
+    if (!course || !course.isActive) {
       throw new NotFoundException('Course not found');
     }
 
@@ -114,8 +118,12 @@ export class CoursesService {
       throw new ForbiddenException();
     }
 
-    return this.prisma.course.delete({
+    return this.prisma.course.update({
       where: { id: courseId },
+      data: {
+        isActive: false,
+        deletedAt: new Date(),
+      },
     });
   }
 

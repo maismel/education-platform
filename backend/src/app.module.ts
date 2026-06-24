@@ -12,6 +12,7 @@ import { ConfigModule } from '@nestjs/config';
 import { JwtStrategy } from 'src/modules/auth/strategies/jwt.strategy';
 import { MaterialsModule } from 'src/modules/materials/materials.module';
 import { EnrollmentsModule } from 'src/modules/enrollments/enrollments.module';
+import { AttendanceModule } from 'src/modules/attendance/attendance.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { EnrollmentsModule } from 'src/modules/enrollments/enrollments.module';
     UsersModule,
     MaterialsModule,
     EnrollmentsModule,
+    AttendanceModule,
     ConfigModule.forRoot({
       isGlobal: true,
     }),

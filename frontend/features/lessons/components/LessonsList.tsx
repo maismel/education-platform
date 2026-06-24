@@ -19,21 +19,38 @@ import { useState } from "react";
 import { useDeleteLesson } from "@/features/lessons/api/useDeleteLesson";
 import { SubmitDialog } from "@/shared/components/SubmitDialog";
 import { useCurrentUser } from "@/features/users/api/useCurrentUser";
+import { useCourseAttendance } from "@/features/attendance/api/useCourseAttendance";
+import { RoleBar } from "@/features/dashboard/components/RoleBar";
+import { useCourseStudents } from "@/features/courses/api/useCourseStudents";
+import { useMyAttendance } from "@/features/attendance/api/useMyAttendance";
+import { cn } from "@/lib/utils";
+import { useLessonAttendanceMap } from "@/features/lessons/hooks/useLessonAttendanceMap";
 
 interface LessonsListProps {
   lessons: Lesson[];
+  courseId: string;
 }
 
-export const LessonsList = ({ lessons }: LessonsListProps) => {
+export const LessonsList = ({ lessons, courseId }: LessonsListProps) => {
   const router = useRouter();
   const [isUpdateOpen, setIsUpdateOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
 
   const [lessonToDelete, setLessonToDelete] = useState("");
   const [lessonToEdit, setLessonToEdit] = useState<Lesson | null>(null);
+
   const { data: user } = useCurrentUser();
-  console.log("user", user);
+  const { data: courseStudents } = useCourseStudents(courseId);
+  const { data: courseAttendance } = useCourseAttendance(courseId, user?.role);
+  const { data: studentAttendance } = useMyAttendance(user?.role);
   const { mutate: deleteLesson } = useDeleteLesson();
+
+  const { attendanceByLesson, myAttendanceByLesson } = useLessonAttendanceMap({
+    courseAttendance,
+    studentAttendance,
+  });
+
+  const studentAmount = courseStudents?.length ?? 0;
 
   if (!lessons?.length) return <div>No lessons</div>;
 
@@ -46,13 +63,15 @@ export const LessonsList = ({ lessons }: LessonsListProps) => {
             <TableRow>
               <TableHead className="w-xs">Lesson</TableHead>
               <TableHead>Date & Time</TableHead>
-              <TableHead>Submissions</TableHead>
+              <TableHead>Attendance</TableHead>
               <TableHead>Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {lessons?.length > 0 &&
               lessons.map((lesson) => {
+                const status =
+                  myAttendanceByLesson?.[lesson.id]?.[0]?.status ?? "ABSENT";
                 return (
                   <TableRow key={lesson.id}>
                     <TableCell className="wrap-break-word whitespace-normal">
@@ -65,7 +84,30 @@ export const LessonsList = ({ lessons }: LessonsListProps) => {
                         {format(new Date(lesson.endsAt), "HH:mm")}
                       </p>
                     </TableCell>
-                    <TableCell>{lesson.title}</TableCell>
+                    <TableCell>
+                      <div>
+                        {user?.role === "STUDENT" ? (
+                          <span
+                            className={cn(
+                              "px-2 py-1 rounded text-xs font-medium",
+                              status === "PRESENT" &&
+                                "bg-green-100 text-green-700",
+                              status === "ABSENT" && "bg-red-100 text-red-700",
+                              status === "LATE" &&
+                                "bg-yellow-100 text-yellow-700",
+                            )}
+                          >
+                            {status}
+                          </span>
+                        ) : (
+                          <RoleBar
+                            value={attendanceByLesson[lesson.id]?.length ?? 0}
+                            total={studentAmount}
+                            label="Students"
+                          />
+                        )}
+                      </div>
+                    </TableCell>
                     <TableCell className="h-full flex gap-2 justify-start items-center">
                       <Button
                         type="button"
