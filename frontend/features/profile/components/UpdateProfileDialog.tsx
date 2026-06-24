@@ -21,7 +21,7 @@ interface UpdateProfileDialogProps {
 export const UpdateProfileDialog = ({
   isOpen,
   setIsOpen,
-  user
+  user,
 }: UpdateProfileDialogProps) => {
   const { mutate: updateProfile } = useUpdateProfile();
 
@@ -49,7 +49,11 @@ export const UpdateProfileDialog = ({
             lastName: user?.lastName ?? "",
             bio: user?.bio ?? "",
           }}
-          defaultAvatar={user?.avatarUrl ? `${process.env.NEXT_PUBLIC_API_URL}${user.avatarUrl}` : undefined}
+          defaultAvatar={
+            user?.avatarUrl
+              ? `${process.env.NEXT_PUBLIC_API_URL}${user.avatarUrl}`
+              : undefined
+          }
         />
       </DialogContent>
     </Dialog>

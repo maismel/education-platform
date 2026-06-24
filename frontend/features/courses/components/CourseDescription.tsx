@@ -1,6 +1,5 @@
 import Image from "next/image";
-import placeholder from "@/public/placeholder.jpeg";
-import { Course } from "@/features/courses/api/useMyCourses";
+import { Course } from "@/shared/types/course";
 import { format } from "date-fns";
 
 interface CourseDescriptionProps {
@@ -8,7 +7,7 @@ interface CourseDescriptionProps {
 }
 
 export const CourseDescription = ({ course }: CourseDescriptionProps) => {
-  const date = format(new Date(course?.createdAt || Date.now()), "dd.MM.yyyy");
+  const date = format(new Date(course.createdAt), "dd.MM.yyyy");
   const imageSrc = course.imageUrl && course.imageUrl.trim() ? course.imageUrl : "/placeholder.jpeg";
 
   return (

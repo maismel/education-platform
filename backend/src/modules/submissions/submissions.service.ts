@@ -67,6 +67,16 @@ export class SubmissionsService {
             title: true,
           },
         },
+        grade: {
+          include: {
+            teacher: {
+              select: {
+                id: true,
+                email: true,
+              },
+            },
+          },
+        },
       },
     });
     return submissions;
@@ -109,6 +119,23 @@ export class SubmissionsService {
 
       orderBy: {
         submittedAt: 'desc',
+      },
+    });
+  }
+
+  async getMyLessonSubmissions(studentId: string, lessonId: string) {
+    return this.prisma.submission.findMany({
+      where: {
+        studentId,
+        lessonId,
+      },
+      include: {
+        lesson: {
+          select: {
+            id: true,
+            title: true,
+          },
+        },
       },
     });
   }

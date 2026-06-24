@@ -32,6 +32,7 @@ export const LessonsList = ({ lessons }: LessonsListProps) => {
   const [lessonToDelete, setLessonToDelete] = useState("");
   const [lessonToEdit, setLessonToEdit] = useState<Lesson | null>(null);
   const { data: user } = useCurrentUser();
+  console.log("user", user);
   const { mutate: deleteLesson } = useDeleteLesson();
 
   if (!lessons?.length) return <div>No lessons</div>;
@@ -71,7 +72,7 @@ export const LessonsList = ({ lessons }: LessonsListProps) => {
                         variant="ghost"
                         onClick={() => {
                           router.push(
-                            `/courses/${lesson.courseId}/lessons/${lesson.id}`,
+                            `/courses/${lesson.courseId}/${lesson.id}`,
                           );
                         }}
                       >

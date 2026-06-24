@@ -13,6 +13,8 @@ import { LessonsTab } from "@/features/lessons/components/LessonsTab";
 import { useState } from "react";
 import { EditCourseDialog } from "@/features/courses/components/EditCourseDialog";
 import { SubmitDialog } from "@/shared/components/SubmitDialog";
+import { useCourseStudents } from "@/features/courses/api/useCourseStudents";
+import { UsersTable } from "@/features/users/components/UsersTable";
 
 interface TeacherDetailPageProps {
   courseId: string;
@@ -48,6 +50,7 @@ export const CourseDetailsPage = ({ courseId }: TeacherDetailPageProps) => {
     router.replace("/courses");
   };
 
+  const { data: courseStudents } = useCourseStudents(courseId)
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -56,61 +59,65 @@ export const CourseDetailsPage = ({ courseId }: TeacherDetailPageProps) => {
     return <div>Course not found</div>;
   }
 
-  return (
-    <>
-      <div className="flex flex-col gap-8">
-        <div className="flex justify-between">
-          <BackLink href="/courses" text="Back to courses" />
-          {currentUser?.role === "TEACHER" && (
-            <div className="flex gap-8">
-              <Button
-                type="button"
-                variant="outline"
-                className="flex gap-2"
-                onClick={() => setIsEditOpen(true)}
-              >
-                <PencilIcon />
-                <p>Edit Course</p>
-              </Button>
-              <Button
-                type="button"
-                variant="outline"
-                className="flex gap-2"
-                onClick={() => setIsDeleteOpen(true)}
-              >
-                <TrashIcon />
-                <p>Delete Course</p>
-              </Button>
-            </div>
-          )}
-        </div>
-        <CourseDescription course={course} />
+  if (!courseStudents) return null
+    return (
+      <>
+        <div className="flex flex-col gap-8">
+          <div className="flex justify-between">
+            <BackLink href="/courses" text="Back to courses" />
+            {currentUser?.role === "TEACHER" && (
+              <div className="flex gap-8">
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="flex gap-2"
+                  onClick={() => setIsEditOpen(true)}
+                >
+                  <PencilIcon />
+                  <p>Edit Course</p>
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="flex gap-2"
+                  onClick={() => setIsDeleteOpen(true)}
+                >
+                  <TrashIcon />
+                  <p>Delete Course</p>
+                </Button>
+              </div>
+            )}
+          </div>
+          <CourseDescription course={course} />
 
-        <Tabs defaultValue={TABS_OPTIONS[0].value}>
-          <TabsList variant="line">
-            {TABS_OPTIONS.map((tab) => (
-              <TabsTrigger key={tab.value} value={tab.value}>
-                {tab.label}
-              </TabsTrigger>
-            ))}
-          </TabsList>
-          <TabsContent value="lessons">
-            <LessonsTab courseId={courseId} />
-          </TabsContent>
-        </Tabs>
-      </div>
-      <EditCourseDialog
-        isOpen={isEditOpen}
-        setIsOpen={setIsEditOpen}
-        title="Update Course"
-        courseId={courseId}
-      />
-      <SubmitDialog
-        isOpen={isDeleteOpen}
-        setIsOpen={setIsDeleteOpen}
-        title="Are you sure you want to delete this course?"
-        onSubmit={() => handleDeleteCourse(courseId)}
-      />
-    </>
-  );
+          <Tabs defaultValue={TABS_OPTIONS[0].value}>
+            <TabsList variant="line">
+              {TABS_OPTIONS.map((tab) => (
+                <TabsTrigger key={tab.value} value={tab.value}>
+                  {tab.label}
+                </TabsTrigger>
+              ))}
+            </TabsList>
+            <TabsContent value="lessons">
+              <LessonsTab courseId={courseId} />
+            </TabsContent>
+            <TabsContent value="students">
+              <UsersTable users={courseStudents} />
+            </TabsContent>
+          </Tabs>
+        </div>
+        <EditCourseDialog
+          isOpen={isEditOpen}
+          setIsOpen={setIsEditOpen}
+          title="Update Course"
+          courseId={courseId}
+        />
+        <SubmitDialog
+          isOpen={isDeleteOpen}
+          setIsOpen={setIsDeleteOpen}
+          title="Are you sure you want to delete this course?"
+          onSubmit={() => handleDeleteCourse(courseId)}
+        />
+      </>
+    );
 };

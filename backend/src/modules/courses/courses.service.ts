@@ -3,6 +3,7 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
+import { Role, User } from '@prisma/client';
 import { CreateCourseDto } from 'src/modules/courses/dto/createCourse.dto';
 import { UpdateCourseDto } from 'src/modules/courses/dto/updateCourse.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
@@ -12,8 +13,11 @@ export class CoursesService {
   constructor(private prisma: PrismaService) {}
 
   // create course
-  async createCourse(dto: CreateCourseDto, teacherId: string) {
-    const course = await this.prisma.course.create({
+  async createCourse(dto: CreateCourseDto, user: User) {
+    const teacherId =
+      user.role === Role.ADMIN && dto.teacherId ? dto.teacherId : user.id;
+
+    return this.prisma.course.create({
       data: {
         title: dto.title,
         description: dto.description,
@@ -21,8 +25,6 @@ export class CoursesService {
         teacherId,
       },
     });
-
-    return course;
   }
 
   async getCourses() {
@@ -115,5 +117,32 @@ export class CoursesService {
     return this.prisma.course.delete({
       where: { id: courseId },
     });
+  }
+
+  async getCourseStudents(courseId: string) {
+    const enrollments = await this.prisma.enrollment.findMany({
+      where: {
+        courseId,
+        student: {
+          isActive: true,
+        },
+      },
+      select: {
+        student: {
+          select: {
+            id: true,
+            role: true,
+            firstName: true,
+            lastName: true,
+            email: true,
+            avatarUrl: true,
+            bio: true,
+            createdAt: true,
+          },
+        },
+      },
+    });
+
+    return enrollments.map((e) => e.student);
   }
 }

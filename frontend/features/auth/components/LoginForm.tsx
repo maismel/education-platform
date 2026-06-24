@@ -1,48 +1,53 @@
 "use client";
 
-import { useState } from "react";
 import { Field, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { validateForm } from "@/features/auth/utils/validate";
 import { PasswordInput } from "@/features/auth/components/PasswordInput";
+import { loginSchema } from "@/features/auth/schemas/loginSchema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import z from "zod";
+import { FormError } from "@/shared/components/FormError";
+
+type FormValues = z.infer<typeof loginSchema>;
 
 interface LoginFormProps {
   onSubmit: (email: string, password: string) => void;
 }
 
 export const LoginForm = ({ onSubmit }: LoginFormProps) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid },
+  } = useForm<FormValues>({
+    resolver: zodResolver(loginSchema),
+    mode: "onChange",
+  });
 
-  const isValid = validateForm(email, password);
-
-  const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    onSubmit(email, password);
-  }
+  const submitHandler = (data: FormValues) => {
+    onSubmit(data.email, data.password);
+  };
 
   return (
     <form
       autoComplete="on"
-      onSubmit={handleSubmit}
-      className="w-full max-w-xs sm:max-w-xl flex flex-col gap-8"
+      onSubmit={handleSubmit(submitHandler)}
+      className="w-full max-w-xs sm:max-w-xl flex flex-col gap-1"
     >
       <Field>
         <FieldLabel htmlFor="email">Email</FieldLabel>
-        <Input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="Enter email"
-        />
+        <Input {...register("email")} placeholder="Email" />
+        <FormError message={errors.email?.message} />
       </Field>
       <Field>
         <FieldLabel htmlFor="password">Password</FieldLabel>
         <PasswordInput
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          {...register("password")}
+          placeholder="Password"
         />
+        <FormError message={errors.password?.message} />
       </Field>
 
       <Button type="submit" className="w-3xs self-end" disabled={!isValid}>

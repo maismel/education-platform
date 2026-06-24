@@ -3,20 +3,19 @@
 import { Button } from "@/components/ui/button";
 import { Field, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { useSignup } from "@/features/auth/api/useSignup";
 import { signupSchema } from "@/features/auth/schemas/signupSchema";
 import { FormError } from "@/shared/components/FormError";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
-import { toast } from "sonner";
 import z from "zod";
 
 type FormValues = z.infer<typeof signupSchema>;
 
-export const SignupForm = () => {
-  const router = useRouter();
+interface SignupFormProps {
+  onSubmit: (data: z.infer<typeof signupSchema>) => void;
+}
 
+export const SignupForm = ({ onSubmit }: SignupFormProps) => {
   const {
     register,
     handleSubmit,
@@ -25,13 +24,6 @@ export const SignupForm = () => {
     resolver: zodResolver(signupSchema),
     mode: "onChange",
   });
-  const { mutate: signup } = useSignup();
-
-  const onSubmit = async (data: FormValues) => {
-    await signup(data);
-    toast.success("You have successfully registered in");
-    router.push("/dashboard");
-  };
 
   return (
     <form

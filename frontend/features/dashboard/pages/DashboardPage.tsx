@@ -6,10 +6,17 @@ import { SubmissionsList } from "@/features/dashboard/components/SubmissionsList
 import { useCurrentUser } from "@/features/users/api/useCurrentUser";
 import { useMyLessons } from "@/features/lessons/api/useMyLessons";
 import { isAfter, isToday, startOfToday } from "date-fns";
+import { useMyCourses } from "@/features/courses/api/useMyCourses";
+import { useMyEnrollments } from "@/features/enrollments/api/useMyEnrollments";
 
 export const DashboardPage = () => {
   const { data: user } = useCurrentUser();
   const { data: lessons = [] } = useMyLessons();
+
+  const { data: courses } = useMyCourses();
+  const { data: myEnrollments } = useMyEnrollments();
+  const coursesToShow =
+    user?.role === "TEACHER" ? courses : myEnrollments?.map((e) => e.course);
 
   const todayLessons = lessons.filter((lesson) =>
     isToday(new Date(lesson.startsAt)),
@@ -38,7 +45,7 @@ export const DashboardPage = () => {
         <SubmissionsList />
       </div>
 
-      <CoursesGrid />
+      {coursesToShow && <CoursesGrid courses={coursesToShow} variant="compact" />}
     </div>
   );
 };

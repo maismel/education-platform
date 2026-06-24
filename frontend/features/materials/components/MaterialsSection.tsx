@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { useGetLessonMaterials } from "@/features/materials/api/useGetLessonMaterials";
 import { MaterialsList } from "@/features/materials/components/MaterialsList";
 import { UploadMaterialDialog } from "@/features/materials/components/UploadMaterialDialog";
-import { useMySubmissions } from "@/features/submissions/api/useMySubmissions";
+import { useMyLessonSubmissions } from "@/features/submissions/api/useMyLessonSubmissions";
 import { SubmissionsList } from "@/features/submissions/components/SubmissionsList";
 import { useCurrentUser } from "@/features/users/api/useCurrentUser";
 import { PlusIcon } from "lucide-react";
@@ -16,7 +16,8 @@ interface MaterialsSectionProps {
 export const MaterialsSection = ({ lessonId, mode }: MaterialsSectionProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const { data: materials } = useGetLessonMaterials(lessonId);
-  const { data: submissions } = useMySubmissions();
+  const { data: submissions } = useMyLessonSubmissions(lessonId);
+
   const { data: user } = useCurrentUser();
 
   const isTeacher = user?.role === "TEACHER";

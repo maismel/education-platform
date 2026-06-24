@@ -11,7 +11,7 @@ const getLessonSubmissions = async (
 
 export const useLessonSubmissions = (lessonId: string) => {
   return useQuery({
-    queryKey: ["submissions:lesson"],
+    queryKey: ["lesson-submissions", lessonId],
     queryFn: () => getLessonSubmissions(lessonId),
     enabled: !!lessonId,
   });

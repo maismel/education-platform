@@ -35,7 +35,7 @@ export const useCreateSubmission = () => {
 
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["submissions:my"],
+        queryKey: ["my-submissions"],
       });
       toast.success("You have successfully created a submission");
     },

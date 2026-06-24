@@ -37,11 +37,11 @@ export const CourseCard = ({
         <Image src={imageSrc} alt={title} fill className="object-cover" />
       </div>
 
-      <div className="flex flex-col gap-2 p-4">
+      <div className="flex flex-col flex-1 gap-2 p-4">
         <h3 className="text-lg font-semibold">{title}</h3>
         <p className="text-gray-600 line-clamp-2">{description}</p>
 
-        {children}
+        <div className="mt-auto self-end ">{children}</div>
       </div>
     </div>
   );

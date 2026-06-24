@@ -25,9 +25,9 @@ export class CoursesController {
 
   @Post()
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.TEACHER)
+  @Roles(Role.TEACHER, Role.ADMIN)
   createCourse(@Body() dto: CreateCourseDto, @Req() req) {
-    return this.coursesService.createCourse(dto, req.user.id);
+    return this.coursesService.createCourse(dto, req.user);
   }
 
   @Get()
@@ -65,5 +65,11 @@ export class CoursesController {
   @Roles(Role.TEACHER)
   deleteCourse(@Param('id') id: string, @Req() req) {
     return this.coursesService.deleteCourse(id, req.user.id);
+  }
+
+  @Get(':id/students')
+  @UseGuards(JwtAuthGuard)
+  getCourseStudents(@Param('id') id: string) {
+    return this.coursesService.getCourseStudents(id);
   }
 }

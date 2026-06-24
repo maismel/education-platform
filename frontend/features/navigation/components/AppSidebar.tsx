@@ -7,6 +7,7 @@ import {
   GraduationCapIcon,
   UserRoundIcon,
   CalendarIcon,
+  UsersIcon
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { SubmitDialog } from "@/shared/components/SubmitDialog";
@@ -17,6 +18,7 @@ const navItems = [
   { label: "Dashboard", href: "/dashboard", icon: <HouseIcon /> },
   { label: "Courses", href: "/courses", icon: <GraduationCapIcon /> },
   { label: "Calendar", href: "/calendar", icon: <CalendarIcon /> },
+  { label: "Users", href: "/users", icon: <UsersIcon /> },
   { label: "Profile", href: "/profile", icon: <UserRoundIcon /> },
 ];
 

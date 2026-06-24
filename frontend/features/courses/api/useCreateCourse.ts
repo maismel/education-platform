@@ -6,12 +6,16 @@ export const createCourse = async (
   title: string,
   description: string,
   imageUrl?: string,
+  teacherId?: string 
 ) => {
   const { data } = await api.post("/courses", {
     title,
     description,
     ...(imageUrl && {
       imageUrl,
+    }),
+    ...(teacherId && {
+      teacherId,
     }),
   });
 
@@ -26,11 +30,13 @@ export const useCreateCourse = () => {
       title,
       description,
       imageUrl,
+      teacherId,
     }: {
       title: string;
       description: string;
       imageUrl?: string;
-    }) => createCourse(title, description, imageUrl),
+      teacherId?: string;
+    }) => createCourse(title, description, imageUrl, teacherId),
 
     onSuccess: () => {
       queryClient.invalidateQueries({

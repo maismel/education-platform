@@ -6,4 +6,5 @@ export interface User {
   lastName: string;
   avatarUrl: string;
   bio: string | null;
+  createdAt: string;
 }

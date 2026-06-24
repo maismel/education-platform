@@ -7,17 +7,20 @@ import {
 } from "@/components/ui/dialog";
 import { useCreateCourse } from "@/features/courses/api/useCreateCourse";
 import { CourseForm } from "@/features/courses/components/CourseForm";
+import { Option } from "@/shared/components/AppSelect";
 
 interface CreateCourseDialogProps {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
   title: string;
+  teacherOptions?: Option[];
 }
 
 export const CreateCourseDialog = ({
   isOpen,
   setIsOpen,
   title,
+  teacherOptions,
 }: CreateCourseDialogProps) => {
   const { mutate: createCourse } = useCreateCourse();
 
@@ -37,9 +40,11 @@ export const CreateCourseDialog = ({
               title: data.title,
               description: data.description,
               imageUrl: data.imageUrl,
+              teacherId: data.teacherId,
             });
             setIsOpen(false);
           }}
+          teacherOptions={teacherOptions}
         />
       </DialogContent>
     </Dialog>

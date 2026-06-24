@@ -9,9 +9,9 @@ import { UpdateProfileDialog } from "@/features/profile/components/UpdateProfile
 import { useCurrentUser } from "@/features/users/api/useCurrentUser";
 import { useState } from "react";
 
-export const ProfilePage = () => {
-  const API_URL = process.env.NEXT_PUBLIC_API_URL;
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
+export const ProfilePage = () => {
   const { data: user } = useCurrentUser();
   const [isOpen, setIsOpen] = useState(false);
 
@@ -27,7 +27,7 @@ export const ProfilePage = () => {
 
       <Card>
         <CardContent className="flex flex-col gap-6 p-6 sm:flex-row sm:items-center">
-          <Avatar className="h-24 w-24">
+          <Avatar className="h-24 w-24 flex justify-center">
             <AvatarImage src={`${API_URL}${user.avatarUrl}`} />
             <AvatarFallback className="text-xl overflow-hidden">
               {initials}

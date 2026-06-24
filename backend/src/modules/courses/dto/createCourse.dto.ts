@@ -12,4 +12,8 @@ export class CreateCourseDto {
   @IsOptional()
   @IsString()
   imageUrl?: string;
+
+  @IsOptional()
+  @IsString()
+  teacherId?: string;
 }

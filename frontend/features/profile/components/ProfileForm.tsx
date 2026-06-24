@@ -19,15 +19,17 @@ import { getAvatarSrc } from "@/features/profile/helpers/getAvatarSrc";
 type FormValues = z.infer<typeof profileSchema>;
 
 interface ProfileFormProps {
-  onSubmit: (data: FormValues, avatar?: File) => void;
+  onSubmit?: (data: FormValues, avatar?: File) => void;
   defaultValues?: FormValues;
   defaultAvatar?: string;
+  disabled?: boolean;
 }
 
 export const ProfileForm = ({
   onSubmit,
   defaultValues,
   defaultAvatar,
+  disabled,
 }: ProfileFormProps) => {
   const [avatar, setAvatar] = useState<File | undefined>();
   const [preview, setPreview] = useState<string | undefined>(defaultAvatar);
@@ -57,7 +59,7 @@ export const ProfileForm = ({
 
   return (
     <form
-      onSubmit={handleSubmit((data) => onSubmit(data, avatar))}
+      onSubmit={handleSubmit((data) => onSubmit?.(data, avatar))}
       className="flex flex-col gap-2"
     >
       <div className="flex flex-col items-center gap-3">
@@ -72,28 +74,29 @@ export const ProfileForm = ({
           type="file"
           accept="image/png,image/jpeg,image/webp"
           onChange={handleAvatarChange}
+          disabled={disabled}
         />
       </div>
 
       <Field className="mt-4">
         <FieldLabel>First Name</FieldLabel>
-        <Input {...register("firstName")} />
+        <Input {...register("firstName")} disabled={disabled} />
         <FormError message={errors.firstName?.message} />
       </Field>
 
       <Field>
         <FieldLabel>Last Name</FieldLabel>
-        <Input {...register("lastName")} />
+        <Input {...register("lastName")} disabled={disabled} />
         <FormError message={errors.lastName?.message} />
       </Field>
 
       <Field>
         <FieldLabel>Bio</FieldLabel>
-        <Input {...register("bio")} />
+        <Input {...register("bio")} disabled={disabled} />
         <FormError message={errors.bio?.message} />
       </Field>
 
-      <Button type="submit" disabled={!isValid} className="ml-auto">
+      <Button type="submit" disabled={!isValid || disabled} className="ml-auto">
         Save Profile
       </Button>
     </form>

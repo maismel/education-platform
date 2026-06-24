@@ -84,4 +84,13 @@ export class SubmissionsController {
   ) {
     return this.submissionsService.getLessonSubmissions(lessonId, req.user.id);
   }
+
+  @Get('my/lesson/:lessonId')
+  @UseGuards(JwtAuthGuard)
+  getMyLessonSubmissions(@Param('lessonId') lessonId: string, @Req() req) {
+    return this.submissionsService.getMyLessonSubmissions(
+      req.user.id,
+      lessonId,
+    );
+  }
 }
