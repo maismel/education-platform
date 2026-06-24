@@ -43,6 +43,9 @@ export class EnrollmentsService {
     return this.prisma.enrollment.findMany({
       where: {
         studentId,
+        course: {
+          isActive: true,
+        },
       },
       include: {
         course: {
