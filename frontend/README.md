@@ -1,36 +1,229 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Education Platform Frontend
 
-## Getting Started
+Frontend application for the Learning Management System (LMS), built with Next.js, React, TypeScript, Tailwind CSS, React Query, and React Hook Form.
 
-First, run the development server:
+## Features
+
+- Authentication with JWT (access + refresh tokens)
+- Role-based access control (Admin, Teacher, Student)
+- Course management
+- Lesson management
+- Course enrollment
+- Attendance tracking
+- Assignment submissions
+- Grading system
+- User profile management
+- File uploads
+- Responsive UI
+
+---
+
+## Tech Stack
+
+- Next.js
+- React
+- TypeScript
+- Tailwind CSS
+- React Query
+- React Hook Form
+- Zod
+- Axios
+- shadcn/ui
+
+---
+
+## Requirements
+
+Before starting, make sure you have installed:
+
+- Node.js 18+
+- npm or yarn
+- Running backend server
+
+---
+
+## Installation
+
+Clone the repository:
+
+```bash
+git clone <repository-url>
+cd frontend
+```
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+or
+
+```bash
+yarn install
+```
+
+---
+
+## Environment Variables
+
+Create a `.env.local` file in the root directory:
+
+```env
+NEXT_PUBLIC_API_URL=http://localhost:3001
+```
+
+Adjust the URL if your backend runs on a different host or port.
+
+---
+
+## Running the Application
+
+Development mode:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+or
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+yarn dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Application will be available at:
 
-## Learn More
+```text
+http://localhost:3000
+```
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Build for Production
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+npm run build
+```
 
-## Deploy on Vercel
+Start production server:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+npm run start
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## Project Structure
+
+```text
+src/
+│
+├── app/                 # Next.js App Router pages
+├── api/                 # Axios configuration
+├── components/          # Shared UI components
+├── features/            # Feature-based modules
+│   ├── auth/
+│   ├── attendance/
+│   ├── courses/
+│   ├── enrollments/
+│   ├── grades/
+│   ├── lessons/
+│   ├── materials/
+│   ├── submissions/
+│   └── users/
+│
+├── hooks/
+├── lib/
+├── providers/
+├── shared/
+│   ├── components/
+│   ├── types/
+│   └── utils/
+```
+
+---
+
+## User Roles
+
+### Admin
+
+- View all users
+- Create teachers
+- Create courses for any teacher
+- Manage platform users
+- View all courses
+
+### Teacher
+
+- Create and manage courses
+- Create lessons
+- Upload learning materials
+- View student submissions
+- Grade assignments
+
+### Student
+
+- Enroll in courses
+- Access lessons and materials
+- Submit assignments
+- View grades
+
+---
+
+## Authentication
+
+Authentication is handled using:
+
+- Access Token
+- Refresh Token
+- HTTP-only cookies
+
+Axios automatically attempts to refresh expired access tokens using the refresh endpoint.
+
+---
+
+## Available Scripts
+
+```bash
+npm run dev
+```
+
+Runs the development server.
+
+```bash
+npm run build
+```
+
+Creates a production build.
+
+```bash
+npm run start
+```
+
+Starts the production server.
+
+```bash
+npm run lint
+```
+
+Runs ESLint.
+
+---
+
+## Backend
+
+This application requires the LMS backend API to be running.
+
+Default backend URL:
+
+```text
+http://localhost:3001
+```
+
+Make sure the backend server is started before launching the frontend.
+
+---
+
+## License
+
+This project is intended for educational purposes.

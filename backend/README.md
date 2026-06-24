@@ -1,98 +1,371 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Education Platform Backend
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Backend API for the Learning Management System (LMS), built with NestJS, PostgreSQL, Prisma ORM, and JWT authentication.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Features
 
-## Description
+- JWT Authentication (Access + Refresh Tokens)
+- Role-based authorization (Admin, Teacher, Student)
+- User management
+- Course management
+- Lesson management
+- Course enrollment
+- Attendance tracking
+- Assignment submissions
+- Grading system
+- File uploads
+- Profile management
+- Soft delete for users
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+---
 
-## Project setup
+## Tech Stack
 
-```bash
-$ npm install
-```
+- NestJS
+- TypeScript
+- PostgreSQL
+- Prisma ORM
+- JWT Authentication
+- bcrypt
+- Multer
+- Class Validator
 
-## Compile and run the project
+---
 
-```bash
-# development
-$ npm run start
+## Requirements
 
-# watch mode
-$ npm run start:dev
+Before starting, make sure you have installed:
 
-# production mode
-$ npm run start:prod
-```
+- Node.js 18+
+- PostgreSQL 14+
+- npm or yarn
 
-## Run tests
+---
 
-```bash
-# unit tests
-$ npm run test
+## Installation
 
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-```
-
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+Clone the repository:
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+git clone <repository-url>
+cd backend
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+Install dependencies:
 
-## Resources
+```bash
+npm install
+```
 
-Check out a few resources that may come in handy when working with NestJS:
+or
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+```bash
+yarn install
+```
 
-## Support
+---
+## Installation
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+Install dependencies:
 
-## Stay in touch
+```bash
+npm install
+```
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+---
+
+## Running PostgreSQL with Docker
+
+Start PostgreSQL:
+
+```bash
+docker compose up -d
+```
+
+Verify that the container is running:
+
+```bash
+docker ps
+```
+
+---
+
+## Environment Variables
+
+Create a `.env` file in the project root:
+
+```env
+DATABASE_URL="postgresql://postgres:postgres@localhost:5434/lms?schema=public"
+
+JWT_ACCESS_SECRET=your_access_secret
+JWT_REFRESH_SECRET=your_refresh_secret
+
+JWT_ACCESS_EXPIRES_IN=15m
+JWT_REFRESH_EXPIRES_IN=7d
+
+PORT=3001
+```
+
+---
+
+## Database Setup
+
+Generate Prisma Client:
+
+```bash
+npx prisma generate
+```
+
+Apply migrations:
+
+```bash
+npx prisma migrate dev
+```
+
+If you want to reset the database:
+
+```bash
+npx prisma migrate reset
+```
+
+⚠️ This command removes all data.
+
+---
+
+## Running the Application
+
+Start development server:
+
+```bash
+npm run start:dev
+```
+
+Application will be available at:
+
+```text
+http://localhost:3001
+```
+
+## Production Build
+
+Build the application:
+
+```bash
+npm run build
+```
+
+Start production server:
+
+```bash
+npm run start:prod
+```
+
+---
+
+## Prisma Commands
+
+Generate Prisma Client:
+
+```bash
+npx prisma generate
+```
+
+Create migration:
+
+```bash
+npx prisma migrate dev --name migration_name
+```
+
+Reset database:
+
+```bash
+npx prisma migrate reset
+```
+
+Open Prisma Studio:
+
+```bash
+npx prisma studio
+```
+
+---
+
+## Project Structure
+
+```text
+src/
+│
+├── modules/
+│   ├── auth/
+│   ├── users/
+│   ├── courses/
+│   ├── lessons/
+│   ├── enrollments/
+│   ├── attendance/
+│   ├── materials/
+│   ├── submissions/
+│   └── grades/
+│
+├── prisma/
+│   ├── prisma.module.ts
+│   └── prisma.service.ts
+│
+├── common/
+│
+├── main.ts
+└── app.module.ts
+
+prisma/
+│
+└── schema.prisma
+```
+
+---
+
+## User Roles
+
+### Admin
+
+- Create teachers
+- View all users
+- Deactivate users
+- Create courses for any teacher
+- View all courses
+
+### Teacher
+
+- Manage courses
+- Create lessons
+- Upload course materials
+- View enrolled students
+- Review submissions
+- Grade assignments
+- Track attendance
+
+### Student
+
+- Enroll in courses
+- View lessons and materials
+- Submit assignments
+- View grades
+- Track attendance
+
+---
+
+## Authentication
+
+Authentication uses:
+
+- JWT Access Token
+- JWT Refresh Token
+- HTTP-only Cookies
+
+Protected routes are secured with:
+
+- JwtAuthGuard
+- RolesGuard
+
+Role restrictions are implemented using:
+
+```ts
+@Roles(Role.ADMIN)
+@Roles(Role.TEACHER)
+@Roles(Role.STUDENT)
+```
+
+---
+
+## File Uploads
+
+Supported uploads:
+
+### User Avatars
+
+Stored in:
+
+```text
+/uploads/avatars
+```
+
+### Assignment Submissions
+
+Supported format:
+
+```text
+PDF
+```
+
+Stored in:
+
+```text
+/uploads
+```
+
+Maximum file size:
+
+```text
+10 MB
+```
+
+---
+
+## Database
+
+Main entities:
+
+- User
+- Course
+- Lesson
+- Enrollment
+- Attendance
+- Material
+- Submission
+- Grade
+
+Relationships are managed through Prisma ORM.
+
+---
+
+## API Documentation
+
+Example base URL:
+
+```text
+http://localhost:3001
+```
+
+Authentication endpoints:
+
+```text
+POST /auth/register
+POST /auth/login
+POST /auth/logout
+POST /auth/refresh
+GET  /auth/me
+```
+
+Course endpoints:
+
+```text
+GET    /courses
+POST   /courses
+PATCH  /courses/:id
+DELETE /courses/:id
+```
+
+Lesson endpoints:
+
+```text
+GET    /lessons
+POST   /lessons
+PATCH  /lessons/:id
+DELETE /lessons/:id
+```
+
+Additional endpoints are available for enrollments, attendance, materials, submissions, grades, and users.
+
+---
 
 ## License
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+This project was created for educational purposes.
